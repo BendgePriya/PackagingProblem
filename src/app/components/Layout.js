@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from './Header'
-import Items from './Items'
-import Packages from './Packages'
+import Items from '../containers/Items'
+import Packages from '../containers/Packages'
 
 /**
  * @author: Priya Bendge

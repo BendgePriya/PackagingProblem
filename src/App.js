@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Layout from './components/Layout'
+import Layout from '../src/app/components/Layout'
 import './App.css';
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from "redux-devtools-extension"
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
-import allReducers from "./reducers/index"
+import allReducers from "../src/app/reducers/index"
 
 
 /**

@@ -1,7 +1,7 @@
 import React from 'react'
 import { List, ListItem, ListItemText, Checkbox, Button}from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
-import { Products } from '../TestData'
+import { Products } from '../constants/TestData'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { AddNewPackages, ResetPackages } from './../actions/package-actions'
