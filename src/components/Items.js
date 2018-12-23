@@ -94,7 +94,15 @@ const handlePlaceOrder = (checkedList, props) => {
         totalWeight += parseInt(Products[val].weight)
         selectedItems.push(Products[val])
     });
-    selectedItems.sort((a,b)=>{return b.weight - a.weight}); 
+
+    selectedItems.sort((a,b)=>{
+            if (b.weight*b.price === a.weight*a.price){
+                return b.price - a.price
+            }
+            return b.weight*b.price - a.weight*a.price})
+
+    console.log(selectedItems);
+
     let packages = [];
     let howManyPackages = (totalPrice > 250) ? Math.ceil(totalPrice/250) : 1
     for(let i=0; i< howManyPackages; i++){
@@ -104,30 +112,44 @@ const handlePlaceOrder = (checkedList, props) => {
             packageWeight: 0
         })
     }
-    let threasholdWeight = Math.round(totalWeight/howManyPackages);
-    threasholdWeight = parseInt(threasholdWeight) + Math.round(threasholdWeight/10)
-    threasholdWeight = (threasholdWeight < selectedItems[0].weight ) ? 
-                            selectedItems[0].weight  : threasholdWeight
-
     for(let index in selectedItems){
-        for(let j = 0; j< packages.length; j++){
-            if(parseInt(packages[j].remainingPrice) - parseInt(selectedItems[index].price) < 0 )
-                continue;
-            if(parseInt(packages[j].packageWeight)+ parseInt(selectedItems[index].weight) > 
-                            threasholdWeight)
-                continue;
-            
-            packages[j].items.push(selectedItems[index].name)
-            packages[j].remainingPrice = parseInt(packages[j].remainingPrice) - 
-                                            parseInt(selectedItems[index].price)
-            packages[j].packageWeight = parseInt(packages[j].packageWeight) +  
-                                            parseInt(selectedItems[index].weight)
-            break;
-        }
-    }
+        let tempPackages = [...packages]
+        tempPackages = findPackagesWithCapacity(tempPackages, selectedItems[index].price);
+        let bestFitIndex = findMinWeightPackage(tempPackages)
+        
+        packages[bestFitIndex].items.push(selectedItems[index].name)
+        packages[bestFitIndex].remainingPrice = parseInt(packages[bestFitIndex].remainingPrice) - 
+                                        parseInt(selectedItems[index].price)
+        packages[bestFitIndex].packageWeight = parseInt(packages[bestFitIndex].packageWeight) +  
+                                        parseInt(selectedItems[index].weight)
+}
     props.AddNewPackages(packages)
 }
 
+const findPackagesWithCapacity = (packages, price) => {
+    let availablePackages = [];
+    packages.map((obj, index) => {
+        if(parseInt(obj.remainingPrice) - parseInt(price) >= 0 ){
+            availablePackages.push({...obj, "isAvailable": true})
+        } else{
+            availablePackages.push({...obj, "isAvailable": false})
+        }
+    })
+    return availablePackages;
+}
+
+const findMinWeightPackage = (availablePackages) => {
+    let minWeight = availablePackages[0].packageWeight;
+    let index = 0;
+    for(let i = 1; i< availablePackages.length; i++){
+        if(availablePackages[i].isAvailable === true && 
+            availablePackages[i].packageWeight < minWeight){
+            minWeight = availablePackages[i].packageWeight;
+            index = i;
+        }
+    }
+    return index;
+}
 /**
  * @author: Priya Bendge
  * @class:  Items
