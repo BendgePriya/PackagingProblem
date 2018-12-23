@@ -9,17 +9,19 @@ const initialState = {
  */
 export default function packagesReducer(state = initialState, action = {}) {
     switch (action.type) {
-        case "ADD_PACKAGES": {
-            const packages = [...state.packages, ...action.packages]
-            const newState = {
-                ...state,
-                packages: packages
+        case "ADD_PACKAGES":
+            {
+                const packages = [...state.packages, ...action.packages]
+                const newState = {
+                    ...state,
+                    packages: packages
+                }
+                return newState
             }
-            return newState
-        }
-        case "RESET_PACKAGES": {
-            return initialState
-        }
+        case "RESET_PACKAGES":
+            {
+                return initialState
+            }
         default:
             return state
     }

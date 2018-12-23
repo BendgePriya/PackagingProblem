@@ -1,4 +1,6 @@
-import { combineReducers } from 'redux'
+import {
+    combineReducers
+} from 'redux'
 import packagesReducer from './reducer-packages'
 
 /******
@@ -6,9 +8,7 @@ import packagesReducer from './reducer-packages'
  * @description: This variable will hold the state which is created by 
  *               combining multiple reducers in application
  */
-const allReducers = combineReducers(
-    {
-        packagesReducer: packagesReducer,
-    }
-)
+const allReducers = combineReducers({
+    packagesReducer: packagesReducer,
+})
 export default allReducers
