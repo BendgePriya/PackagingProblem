@@ -2,6 +2,11 @@ const initialState = {
     packages: []
 }
 
+/******
+ * @field: packagesReducer
+ * @description: this function is a redux reducer function which is going to 
+ *               update internal state
+ */
 export default function packagesReducer(state = initialState, action = {}) {
     switch (action.type) {
         case "ADD_PACKAGES": {

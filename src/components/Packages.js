@@ -1,18 +1,8 @@
 import React from 'react'
-import {List, ListItem, ListItemText, Paper, Card, CardContent}from '@material-ui/core'
+import {List, ListItem, ListItemText, Card, CardContent}from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 
-const getCourierPrice = (packageWeight) => {
-    if(packageWeight >= 0 && packageWeight <= 200)
-    return 5
-    if(packageWeight > 200 && packageWeight <= 500)
-    return 10
-    if(packageWeight > 500 && packageWeight <= 1000)
-    return 15
-    if(packageWeight > 1000 && packageWeight <= 5000)
-    return 20
-}
 const styles = theme => ({
     root: {
       backgroundColor: theme.palette.background.paper,
@@ -23,7 +13,29 @@ const styles = theme => ({
       marginTop:"2vh"
     }
   });
-const getResult = (root, packagesReducer) => {
+
+/******
+ * @method: getCourierPrice
+ * @param: packageWeight
+ * @description: This method is going to calculate courier price
+ */
+const getCourierPrice = (packageWeight) => {
+    if(packageWeight >= 0 && packageWeight <= 200)
+    return 5
+    if(packageWeight > 200 && packageWeight <= 500)
+    return 10
+    if(packageWeight > 500 && packageWeight <= 1000)
+    return 15
+    if(packageWeight > 1000 && packageWeight <= 5000)
+    return 20
+}
+
+/******
+ * @method: getPackages
+ * @param: root, packagesReducer
+ * @description: This method is going to display each package on UI
+ */
+const getPackages = (root, packagesReducer) => {
     return packagesReducer.packages.map((obj, index)=> {
         return(
             <div  key={index}>
@@ -61,17 +73,29 @@ const getResult = (root, packagesReducer) => {
         )
     })
 }
+
+/**
+ * @author: Priya Bendge
+ * @class:  Packages
+ * @description: This class is going handle packages display part on UI
+ */
 class Packages extends React.Component{
     render(){
         const { classes } = this.props;
         return(
             <div>
-                {getResult(classes.root, this.props.packagesReducer)}
+                {getPackages(classes.root, this.props.packagesReducer)}
             </div>
         )
     }
 }
 
+/**
+ * @method: mapStateToProps
+ * @param {*} state 
+ * @description: this method will provide package information from redux store 
+ *               which can be accessible as props in this component
+ */
 const mapStateToProps = (state) => {
     return {
         packagesReducer: state.packagesReducer,

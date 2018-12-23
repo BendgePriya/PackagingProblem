@@ -2,6 +2,12 @@ import React from 'react'
 import Header from './Header'
 import Items from './Items'
 import Packages from './Packages'
+
+/**
+ * @author: Priya Bendge
+ * @class:  Layout
+ * @description: This class is going Layout our components on UI as a single page.
+ */
 export default class Layout extends React.Component{
     render(){
         return(
